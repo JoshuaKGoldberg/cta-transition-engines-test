@@ -24,14 +24,10 @@ runs:
         echo "BASE engines: $BASE_ENGINES"
         echo "PR engines: $PR_ENGINES"
       shell: bash
-    - if: steps.engines-changed.outputs.changed == 'true'
-      name: Change PR to draft and note the breaking engines change
-      run: |
-        gh pr edit --body ""
-      shell: bash
-    - name: Add ENGINES_INDICATOR to PR body if missing
+    - env:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       if: steps.engines-changed.outputs.changed == 'true'
-      shell: bash
+      name: Set PR to draft and mention the change its body
       run: |
         gh pr ready --undo
         CURRENT_BODY=$(gh pr view --json body)
@@ -39,4 +35,5 @@ runs:
         if ! grep -qF "$ENGINES_INDICATOR" <<< "$CURRENT_BODY"; then
           gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY\n\n$ENGINES_INDICATOR"
         fi
+      shell: bash
   using: composite
