@@ -45,8 +45,6 @@ runs:
     - name: Add ENGINES_INDICATOR to PR body if missing
       if: steps.engines-changed.outputs.changed == 'true'
       shell: bash
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         gh pr ready --undo
         CURRENT_BODY=$(gh pr view --json body)
