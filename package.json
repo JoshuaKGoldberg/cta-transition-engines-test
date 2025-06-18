@@ -71,7 +71,8 @@
 	},
 	"packageManager": "pnpm@10.4.0",
 	"engines": {
-		"node": ">=18.3.0"
+		"node": ">=18.3.0",
+		"other": "a1"
 	},
 	"publishConfig": {
 		"provenance": true
