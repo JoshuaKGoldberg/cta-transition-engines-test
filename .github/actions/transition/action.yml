@@ -35,7 +35,7 @@ runs:
         ENGINES_INDICATOR="Note: This PR has a breaking change to the \`engines\` field in \`package.json\`. It is now a draft PR until you update the PR body to indicate that you are ready to merge it."
         if ! grep -qF "$ENGINES_INDICATOR" <<< "$CURRENT_BODY"; then
           echo "Will edit the PR body"
-          gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY\n\n$ENGINES_INDICATOR"
+          gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY\\n\\n$ENGINES_INDICATOR"
         fi
       shell: bash
   using: composite
