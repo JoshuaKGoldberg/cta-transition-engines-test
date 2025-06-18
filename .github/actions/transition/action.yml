@@ -25,7 +25,7 @@ runs:
         echo "PR engines: $PR_ENGINES"
       shell: bash
     - env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.token }}
       if: steps.engines-changed.outputs.changed == 'true'
       name: Set PR to draft and mention the change its body
       run: |
