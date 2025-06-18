@@ -29,9 +29,9 @@ runs:
       if: steps.engines-changed.outputs.changed == 'true'
       name: Set PR to draft and mention the change its body
       run: |
-        gh pr ready --undo
+        gh pr ready --undo || exit 0
         CURRENT_BODY="$(gh pr view --json body)"
-        ENGINES_INDICATOR="Note: This PR has a breaking change to the `engines` field in `package.json`. It is now a draft PR until you update the PR body to indicate that you are ready to merge it."
+        ENGINES_INDICATOR="Note: This PR has a breaking change to the \`engines\` field in \`package.json\`. It is now a draft PR until you update the PR body to indicate that you are ready to merge it."
         if ! grep -qF "$ENGINES_INDICATOR" <<< "$CURRENT_BODY"; then
           gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY\n\n$ENGINES_INDICATOR"
         fi
