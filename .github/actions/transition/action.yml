@@ -36,11 +36,12 @@ runs:
       run: |
         CURRENT_BODY="$(gh pr view --json body --jq .body)"
         echo "Current body: $CURRENT_BODY"
-        ENGINES_INDICATOR="Note: This PR has a breaking change to the \`engines\` field in \`package.json\`. It's been set to a draft so that it doesn't automatically merge. Keep this note un-edited in the PR body so the PR doesn't get reset back to draft later."
+        ENGINES_INDICATOR="This PR has a breaking change to the \`engines\` field in \`package.json\`. It's been set to a draft so that it doesn't automatically merge. Keep this note un-edited in the PR body so the PR doesn't get reset back to draft later."
         if ! grep -qF "$ENGINES_INDICATOR" <<< "$CURRENT_BODY"; then
           gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY
 
-          $ENGINES_INDICATOR"
+          > [!NOTE]
+          > $ENGINES_INDICATOR"
           gh pr ready --undo || exit 0
         fi
       shell: bash
