@@ -2,6 +2,11 @@ description: Runs create-typescript-app in transition mode
 
 name: Transition
 
+inputs:
+  token:
+    description: The GitHub token to use for the PR
+    required: true
+
 runs:
   steps:
     - uses: ./.github/actions/prepare
@@ -33,7 +38,9 @@ runs:
         echo "Current body: $CURRENT_BODY"
         ENGINES_INDICATOR="Note: This PR has a breaking change to the \`engines\` field in \`package.json\`. It's been set to a draft so that it doesn't automatically merge. Keep this note un-edited in the PR body so the PR doesn't get reset back to draft later."
         if ! grep -qF "$ENGINES_INDICATOR" <<< "$CURRENT_BODY"; then
-          gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY\\n\\n$ENGINES_INDICATOR"
+          gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY
+
+          $ENGINES_INDICATOR"
           gh pr ready --undo || exit 0
         fi
       shell: bash
