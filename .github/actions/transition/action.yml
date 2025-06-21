@@ -26,8 +26,6 @@ runs:
         if [ "$BASE_ENGINES" != "$PR_ENGINES" ]; then
           echo "changed=true" >> $GITHUB_OUTPUT
         fi
-        echo "BASE engines: $BASE_ENGINES"
-        echo "PR engines: $PR_ENGINES"
       shell: bash
     - env:
         GITHUB_TOKEN: ${{ inputs.token }}
@@ -35,8 +33,8 @@ runs:
       name: Set PR to draft and mention the change its body
       run: |
         CURRENT_BODY="$(gh pr view --json body --jq .body)"
-        echo "Current body: $CURRENT_BODY"
         ENGINES_INDICATOR="This PR has a breaking change to the \`engines\` field in \`package.json\`. It's been set to a draft so that it doesn't automatically merge. Keep this note un-edited in the PR body so the PR doesn't get reset back to draft later."
+
         if ! grep -qF "$ENGINES_INDICATOR" <<< "$CURRENT_BODY"; then
           gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY
 
