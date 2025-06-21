@@ -40,8 +40,8 @@ runs:
         if ! grep -qF "$ENGINES_INDICATOR" <<< "$CURRENT_BODY"; then
           gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY
 
-          > [!NOTE]
-          > $ENGINES_INDICATOR"
+        > [!NOTE]
+        > $ENGINES_INDICATOR"
           gh pr ready --undo || exit 0
         fi
       shell: bash
