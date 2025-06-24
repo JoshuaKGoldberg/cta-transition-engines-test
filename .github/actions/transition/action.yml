@@ -17,30 +17,31 @@ runs:
         commit_message: Check in changes from re-running npx create-typescript-app
         commit_user_email: bot@create.bingo
         commit_user_name: The Friendly Bingo Bot
-    - id: engines-changed
-      name: Check if engines field changed
-      run: |
-        BASE_SHA="${{ github.event.pull_request.base.sha }}"
-        BASE_ENGINES=$(git show "$BASE_SHA:package.json" | jq '.engines')
-        PR_ENGINES=$(cat package.json | jq '.engines')
-        if [ "$BASE_ENGINES" != "$PR_ENGINES" ]; then
-          echo "changed=true" >> $GITHUB_OUTPUT
-        fi
-      shell: bash
-    - env:
-        GITHUB_TOKEN: ${{ inputs.token }}
-      if: steps.engines-changed.outputs.changed == 'true'
-      name: Set PR to draft and mention the change its body
-      run: |
-        CURRENT_BODY="$(gh pr view --json body --jq .body)"
-        ENGINES_INDICATOR="This PR has a breaking change to the \`engines\` field in \`package.json\`. It's been set to a draft so that it doesn't automatically merge. Keep this note un-edited in the PR body so the PR doesn't get reset back to draft later."
+    - uses: JoshuaKGoldberg/package-change-detector-action@69fbe0119f05396861386d86bba09e43cffdf10e
+    # - id: engines-changed
+    #   name: Check if engines field changed
+    #   run: |
+    #     BASE_SHA="${{ github.event.pull_request.base.sha }}"
+    #     BASE_ENGINES=$(git show "$BASE_SHA:package.json" | jq '.engines')
+    #     PR_ENGINES=$(cat package.json | jq '.engines')
+    #     if [ "$BASE_ENGINES" != "$PR_ENGINES" ]; then
+    #       echo "changed=true" >> $GITHUB_OUTPUT
+    #     fi
+    #   shell: bash
+    # - env:
+    #     GITHUB_TOKEN: ${{ inputs.token }}
+    #   if: steps.engines-changed.outputs.changed == 'true'
+    #   name: Set PR to draft and mention the change its body
+    #   run: |
+    #     CURRENT_BODY="$(gh pr view --json body --jq .body)"
+    #     ENGINES_INDICATOR="This PR has a breaking change to the \`engines\` field in \`package.json\`. It's been set to a draft so that it doesn't automatically merge. Keep this note un-edited in the PR body so the PR doesn't get reset back to draft later."
 
-        if ! grep -qF "$ENGINES_INDICATOR" <<< "$CURRENT_BODY"; then
-          gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY
+    #     if ! grep -qF "$ENGINES_INDICATOR" <<< "$CURRENT_BODY"; then
+    #       gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY
 
-        > [!NOTE]
-        > $ENGINES_INDICATOR"
-          gh pr ready --undo || exit 0
-        fi
-      shell: bash
+    #     > [!NOTE]
+    #     > $ENGINES_INDICATOR"
+    #       gh pr ready --undo || exit 0
+    #     fi
+    #   shell: bash
   using: composite
