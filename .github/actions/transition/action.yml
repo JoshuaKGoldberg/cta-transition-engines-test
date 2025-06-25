@@ -22,7 +22,7 @@ runs:
     #   with:
     #     properties: engines
     - # if: steps.package-change.outputs.changed == 'true'
-      uses: JoshuaKGoldberg/draft-pull-request-once-action@36f12f1bc0c3fe33a97b779c1bc86ca66b9597ce
+      uses: JoshuaKGoldberg/draft-pull-request-once-action@a449b188b32c366600fd2f06bfd248fff2b97cef
       with:
         github-token: ${{ inputs.token }}
         message: |
