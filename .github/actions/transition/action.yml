@@ -17,12 +17,12 @@ runs:
         commit_message: Check in changes from re-running npx create-typescript-app
         commit_user_email: bot@create.bingo
         commit_user_name: The Friendly Bingo Bot
-    # - id: package-change
-    #   uses: JoshuaKGoldberg/package-change-detector-action@2e72423586ed69fa6ceeef73f41532d44d7f2b60
-    #   with:
-    #     properties: engines
-    - # if: steps.package-change.outputs.changed == 'true'
-      uses: JoshuaKGoldberg/draft-pull-request-once-action@dffc1204b58eea686ba19dd1d7822e439f5e8b98
+    - id: package-change
+      uses: JoshuaKGoldberg/package-change-detector-action@2e72423586ed69fa6ceeef73f41532d44d7f2b60
+      with:
+        properties: engines
+    - if: steps.package-change.outputs.changed == 'true'
+      uses: JoshuaKGoldberg/draft-pull-request-once-action@a512791e242fca9ad9c6c8de890410aee23e14c3
       with:
         github-token: ${{ inputs.token }}
         message: |
@@ -30,20 +30,4 @@ runs:
 
           Cheers!
           _— The Friendly Bingo Bot 💝_
-    # - env:
-    #     GITHUB_TOKEN: ${{ inputs.token }}
-    #   if: steps.engines-changed.outputs.changed == 'true'
-    #   name: Set PR to draft and mention the change its body
-    #   run: |
-    #     CURRENT_BODY="$(gh pr view --json body --jq .body)"
-    #     ENGINES_INDICATOR="This PR has a breaking change to the \`engines\` field in \`package.json\`. It's been set to a draft so that it doesn't automatically merge. Keep this note un-edited in the PR body so the PR doesn't get reset back to draft later."
-
-    #     if ! grep -qF "$ENGINES_INDICATOR" <<< "$CURRENT_BODY"; then
-    #       gh pr edit "$PR_NUMBER" --body "$CURRENT_BODY
-
-    #     > [!NOTE]
-    #     > $ENGINES_INDICATOR"
-    #       gh pr ready --undo || exit 0
-    #     fi
-    #   shell: bash
   using: composite
