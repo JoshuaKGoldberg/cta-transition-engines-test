@@ -17,7 +17,7 @@ runs:
         commit_message: Check in changes from re-running npx create-typescript-app
         commit_user_email: bot@create.bingo
         commit_user_name: The Friendly Bingo Bot
-    - uses: JoshuaKGoldberg/package-change-detector-action@6135927cdaad2b19d238d27bba689cf5abb44249
+    - uses: JoshuaKGoldberg/package-change-detector-action@c3c66c4837b52e660e4d082be07db9baa6cc0c05
     # - id: engines-changed
     #   name: Check if engines field changed
     #   run: |
