@@ -17,23 +17,12 @@ runs:
         commit_message: Check in changes from re-running npx create-typescript-app
         commit_user_email: bot@create.bingo
         commit_user_name: The Friendly Bingo Bot
-    - id: package-change
-      uses: JoshuaKGoldberg/package-change-detector-action@2e72423586ed69fa6ceeef73f41532d44d7f2b60
-      with:
-        properties: engines
-    - run: |
-        echo "${{ steps.package-change.outputs.changed }}"
-      shell: bash
-    # - id: engines-changed
-    #   name: Check if engines field changed
-    #   run: |
-    #     BASE_SHA="${{ github.event.pull_request.base.sha }}"
-    #     BASE_ENGINES=$(git show "$BASE_SHA:package.json" | jq '.engines')
-    #     PR_ENGINES=$(cat package.json | jq '.engines')
-    #     if [ "$BASE_ENGINES" != "$PR_ENGINES" ]; then
-    #       echo "changed=true" >> $GITHUB_OUTPUT
-    #     fi
-    #   shell: bash
+    # - id: package-change
+    #   uses: JoshuaKGoldberg/package-change-detector-action@2e72423586ed69fa6ceeef73f41532d44d7f2b60
+    #   with:
+    #     properties: engines
+    - # if: steps.package-change.outputs.changed == 'true'
+      uses: JoshuaKGoldberg/draft-pull-request-once-action@e62f452d4ec08210f9acb103759c25e7cbc9b681
     # - env:
     #     GITHUB_TOKEN: ${{ inputs.token }}
     #   if: steps.engines-changed.outputs.changed == 'true'
