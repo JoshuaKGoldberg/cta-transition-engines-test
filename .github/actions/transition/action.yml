@@ -25,6 +25,11 @@ runs:
       uses: JoshuaKGoldberg/draft-pull-request-once-action@36f12f1bc0c3fe33a97b779c1bc86ca66b9597ce
       with:
         github-token: ${{ inputs.token }}
+        message: |
+          > 🤖 Beep boop! This PR has a breaking change to the `engines` field in `package.json`. It's been set to a draft so that it doesn't automatically merge. Go ahead and un-draft the PR if you're ok with the breaking change.
+          >
+          > Cheers!
+          > _— The Friendly Bingo Bot 💝_
     # - env:
     #     GITHUB_TOKEN: ${{ inputs.token }}
     #   if: steps.engines-changed.outputs.changed == 'true'
