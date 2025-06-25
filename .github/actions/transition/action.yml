@@ -26,7 +26,7 @@ runs:
       with:
         github-token: ${{ inputs.token }}
         message: |
-          🤖 Beep boop! This PR has a breaking change to the `engines` field in `package.json`. It's been set to a draft so that it doesn't automatically merge. Go ahead and un-draft the PR if you're ok with the breaking change.
+          🤖 Beep boop! This PR changes the `engines` field in `package.json`. It's been set to a draft so that it doesn't automatically merge. Go ahead and un-draft the PR if you're ok with the breaking change.
 
           Cheers!
           _— The Friendly Bingo Bot 💝_
