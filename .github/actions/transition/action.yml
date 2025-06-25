@@ -24,7 +24,7 @@ runs:
     - # if: steps.package-change.outputs.changed == 'true'
       uses: JoshuaKGoldberg/draft-pull-request-once-action@4f2f9ae0623241e1ad6c77eb25762080029a2171
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ inputs.token }}
     # - env:
     #     GITHUB_TOKEN: ${{ inputs.token }}
     #   if: steps.engines-changed.outputs.changed == 'true'
